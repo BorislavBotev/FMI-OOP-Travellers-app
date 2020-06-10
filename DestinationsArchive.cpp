@@ -1,6 +1,40 @@
 #include "DestinationsArchive.hpp"
+DestinationsArchive::DestinationsArchive()
+{
+    destinationsCapacity=0;
+    destinationsSize=0;
+    fDestinations=NULL;
+}
+DestinationsArchive::~DestinationsArchive()
+{
+    delete[] fDestinations;
+}
 
 
+void DestinationsArchive::collectAllData()
+{
+    std::ifstream iFile(DES_ARCHIVE_NAME[0],std::ios::binary);
+    if(iFile.bad())
+    {
+        iFile.close();
+        throw MyException("Can not open file");
+    }
+    destinationsSize=0;
+    destinationsCapacity=destinationsSize+5;
+    iFile.read((char*)&destinationsSize,sizeof(int));
+    FileDestination*fDestinations=new FileDestination[destinationsCapacity];
+    iFile.read((char*)fDestinations,(sizeof(FileDestination)*destinationsSize));
+    if(fDestinations==NULL)
+    {
+        iFile.close();
+        throw MyException("Can not read file");
+    }
+    iFile.close();
+}
+void DestinationsArchive::addDestination(char*name)
+{
+
+}
 /*FileDestination* DestinationsArchive:: downloadDestinations()
 {
     std::ifstream iFile("destinations.db",std::ios::binary);
@@ -29,6 +63,7 @@
     iFile.close();
     return des;
 }
+*/
 void DestinationsArchive::printDestinations()
 {
     if(destinationsSize==0)
@@ -41,6 +76,7 @@ void DestinationsArchive::printDestinations()
         std::cout<<i+1<<"-"<<fDestinations[i].name<<std::endl;
     }
 }
+/*
 FileDestination& DestinationsArchive::viewDestinations(int& command)
 {
     if(destinationsSize==0)

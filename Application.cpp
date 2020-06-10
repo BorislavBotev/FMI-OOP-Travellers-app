@@ -16,13 +16,13 @@ Application::~Application()
 
 void Application:: app()
 {
-        logIn();
-
-        std::cout<<"Lets go"<<std::endl;
-        usArchive->collectAllData();
-        homepage();
-        usArchive->updateUserInDB(*user);
-       // delete user;
+    logIn();
+    std::cout<<"Lets go"<<std::endl;
+    desArchive->collectAllData();
+    usArchive->collectAllData();
+    homepage();
+    usArchive->updateUserInDB(*user);
+    // delete user;
 
 }
 
@@ -76,7 +76,7 @@ void Application::homepage()
 {
     while(true)
     {
-        std::cout<<"1-View all destinations\t2-View your destinations\t3-View your friendlist\t4-Add friend"<<std::endl;
+        std::cout<<"1-View all destinations\t2-View your destinations\t3-View your friendlist\t4-Add friend\t5-Add Destination"<<std::endl;
         std::cin>>command;
         std::cin.ignore();
         switch(command)
@@ -105,6 +105,20 @@ void Application::homepage()
             }
             user->addFriendWtihValidation(username);
             break;
+        case 5:
+
+
+            {
+                try
+                {
+                    desArchive->addDestination(user->addDestination());
+                }
+                catch(MyException e)
+                {
+                    std::cout<<e.what()<<std::endl;
+                }
+
+            break;
         case 0:
             return;
         case -1:
@@ -115,6 +129,7 @@ void Application::homepage()
         }
 
     }
+}
 }
 
 /*void Application::viewDestinations()

@@ -5,6 +5,7 @@
 #include "GlobalFunctions.hpp"
 #include "MyException.hpp"
 const int MINIMUM_YEAR=1950;
+const int MAX_DATE_LENGTH=10;
 class TimePeriod
 {
     char*from;

@@ -5,12 +5,12 @@
 struct UsersDestination
 {
     char name[MAX_DESTINATIOON_NAME_LENGTH];
-    char from[10];
-    char till[10];
+    char from[MAX_DATE_LENGTH];
+    char till[MAX_DATE_LENGTH];
     int rating;
-    char comment[100];
+    char comment[MAX_COMMENT_LENGTH];
     char photos[MAX_PHOTOS_PER_USER*FILE_EXTENSIONS_MAX_LEN];
-    UsersDestinations(char*name,char*from,char*till,int rating,char*comment,char*photos)
+    UsersDestination(char*name,char*from,char*till,int rating,char*comment,char*photos)
     {
         strcpy(this->name,name);
         strcpy(this->from,from);
@@ -19,7 +19,7 @@ struct UsersDestination
         strcpy(this->comment,comment);
         strcpy(this->photos,photos);
     }
-    UsersDestinations()
+    UsersDestination()
     {
 
     }

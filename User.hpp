@@ -7,24 +7,37 @@ const int MAX_PASSWORD_LENGTH=10;
 const int MAX_MAIL_LENGTH=20;
 class User
 {
-    private:
+private:
     char*name;
     char** friends;
     int friendsSize;
     int friendsCapacity;
     bool isUpToDate;
-//    Destination**destinations;
-    public:
+    Destination**destinations;
+    int destinationsSize;
+    int destinationsCapacity;
+    bool alreadyInYourList(const char*name);
+
+public:
     User(char*name);
     ~User();
     const char* getName()const;
-    void addDestination(Destination& d);
+    char* addDestination();
     void addFriend(const char*name);
     void viewFriends();
     void addFriendWtihValidation(const char*username);
-    bool upToDate(){return isUpToDate;};
-    int getFriendsSize(){return friendsSize;}
-    char** getFriends() const{return friends;}
+    bool upToDate()
+    {
+        return isUpToDate;
+    };
+    int getFriendsSize()
+    {
+        return friendsSize;
+    }
+    char** getFriends() const
+    {
+        return friends;
+    }
 
 };
 

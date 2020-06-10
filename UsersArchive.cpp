@@ -259,6 +259,7 @@ Destination& UsersArchive::usersDestinationsToDestination(UsersDestination& user
 {
 
 }
+
 void UsersArchive::updateUserInDB(User& user)
 {
     if(user.upToDate())

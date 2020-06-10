@@ -7,6 +7,8 @@ int extractNumberFromString(const char*arr,int& startingIndex);
 void extractWordFromInput(char*&text,const char*input,int&startingIndex);
 void createSubString(char*&name,const char*input,int start,int finish);
 char* createFileNameFromUsername(const char*name);
+void extractNameFromInput(char*&name,const char*input,int& startingIndex);
+
 template <typename T>
 void deleteArray(T**arr,int size)
 {

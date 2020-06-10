@@ -5,18 +5,23 @@
 #include <cstring>
 #include "Structs.hpp"
 #include "UsersArchive.hpp"
+const char DES_ARCHIVE_NAME[][16]= {"destinations.db"};
 class DestinationsArchive
 {
-    //Destination** destinations;
     int destinationsSize;
     int destinationsCapacity;
     FileDestination*fDestinations;
 
 public:
-    void registerUser(FileUser*users);
-    void viewDestinationsRatings(FileDestination& destination);
-    void printDestinations(FileDestination* destinations);
-    void viewDestinations(int& command);
+    //  void registerUser(FileUser*users);
+    // void viewDestinationsRatings(FileDestination& destination);
+    DestinationsArchive();
+    ~DestinationsArchive();
+    void collectAllData();
+    void printDestinations();
+                        void addDestination(char*des);
+
+    // void viewDestinations(int& command);
 
 };
 

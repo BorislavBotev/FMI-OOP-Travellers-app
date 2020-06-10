@@ -3,6 +3,8 @@
 #include "TimePeriod.hpp"
 #include "Photo.hpp"
 const int MAX_DESTINATIOON_NAME_LENGTH=30;
+const int MAX_PHOTOS_PER_USER=5;
+const int MAX_COMMENT_LENGTH=100;
 class Destination
 {
     char*name;
@@ -10,6 +12,18 @@ class Destination
     int grade;
     char*comment;
     Photo**photos;
+    int photosSize;
+    public:
+    Destination();
+   ~Destination();
+    void setName(char*name);
+    void setPeriod(char* date1,char*date2);
+    void setGrade(int grade);
+    void setComment(char*comment);
+    void addPhoto(char*file);
+    int getPhotosSize()const;
+    char* getName()const{return name;}
+
 };
 
 #endif

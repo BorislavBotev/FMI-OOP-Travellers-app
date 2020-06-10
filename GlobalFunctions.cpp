@@ -16,6 +16,25 @@ int extractNumberFromString(const char*arr,int& startingIndex)
     }
     return number;
 }
+void extractNameFromInput(char*&name,const char*input,int& startingIndex)
+{
+
+    int start=startingIndex;
+    if(!input)
+    {
+        return;
+    }
+    if(input[startingIndex]<'A' || input[startingIndex]>'Z')
+    {
+        return;
+    }
+    startingIndex++;
+    while(input[startingIndex]>='a' && input[startingIndex]<='z')
+    {
+        startingIndex++;
+    }
+    createSubString(name,input,start,(startingIndex-1));
+}
 void extractWordFromInput(char*&text,const char*input,int&startingIndex)
 {
     int start=startingIndex;
