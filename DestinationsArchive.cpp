@@ -38,6 +38,10 @@ void DestinationsArchive::addDestination(char*name)
     {
         return;
     }
+    if(fDestinations==NULL)
+    {
+        fDestinations=new FileDestination[destinationsCapacity];
+    }
     for(int i=0; i<destinationsSize; i++)
     {
         if(strcmp(fDestinations[i].name,name)==0)

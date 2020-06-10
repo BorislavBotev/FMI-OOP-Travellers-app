@@ -13,17 +13,22 @@ class Destination
     char*comment;
     Photo**photos;
     int photosSize;
-    public:
+public:
     Destination();
-   ~Destination();
+    ~Destination();
     void setName(char*name);
     void setPeriod(char* date1,char*date2);
     void setGrade(int grade);
     void setComment(char*comment);
     void addPhoto(char*file);
     int getPhotosSize()const;
-    char* getName()const{return name;}
-
+    char* getName()const;
+    int getGrade()const;
+    TimePeriod* getPeriod()const;
+    char* getComment()const;
+    Photo** getPhotos()const;
 };
+std::ostream& operator<<(std::ostream& os, Destination const& d);
+
 
 #endif

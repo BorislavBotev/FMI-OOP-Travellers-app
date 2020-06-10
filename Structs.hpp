@@ -10,16 +10,19 @@ struct FileUsersDestination
     int rating;
     char comment[MAX_COMMENT_LENGTH];
     char photos[MAX_PHOTOS_PER_USER][FILE_EXTENSIONS_MAX_LEN];
-    UsersDestination(char*name,char*from,char*till,int rating,char*comment,char*photos)
+    FileUsersDestination(char*name,char*from,char*till,int rating,char*comment,char photos[MAX_PHOTOS_PER_USER][FILE_EXTENSIONS_MAX_LEN])
     {
         strcpy(this->name,name);
         strcpy(this->from,from);
         strcpy(this->till,till);
         this->rating=rating;
-        strcpy(this->comment,comment);
-       // strcpy(this->photos,photos);
+       for(int i=0;i<MAX_PHOTOS_PER_USER;i++)
+       {
+           strcpy(this->photos[i],photos[i]);
+       }
+
     }
-    UsersDestination()
+    FileUsersDestination()
     {
 
     }

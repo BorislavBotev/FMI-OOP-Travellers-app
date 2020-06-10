@@ -83,7 +83,7 @@ void Application::homepage()
             desArchive->printDestinations();
             break;
         case 2:
-            // viewMyDestinations();
+            user->viewMyDestinations();
             break;
         case 3:
             user->viewFriends();

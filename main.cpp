@@ -60,7 +60,11 @@ int main()
         }
     }
     cout<<*t;*/
-   while(true){
+
+
+
+
+  while(true){
     Application* app=new Application();
     app->app();
     delete app;

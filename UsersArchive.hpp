@@ -13,7 +13,10 @@ class UsersArchive
     void addNewUserToFile(FileUser fileUser);
     void fileUsersToArrUsers();
     FileUser* downloadUsers();
-    //Destination& usersDestinationsToDestination(UsersDestination& userDes);
+    Destination& usersDestinationsToDestination(FileUsersDestination& userDes);
+   void createFileUsersDestinationFromDestinationAndWriteIT(Destination&des,std::ofstream&os);
+
+
 
 
 public:

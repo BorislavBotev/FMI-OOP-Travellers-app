@@ -19,6 +19,7 @@ private:
     bool isFileUpdated;
 
     bool alreadyInYourList(const char*name);
+
 public:
     User(char*name);
     ~User();
@@ -27,6 +28,13 @@ public:
     void addFriend(const char*name);
     void viewFriends();
     void addFriendWtihValidation(const char*username);
+        Destination& getMyDestinationByIndex(int number);
+        void addDestinationFromFile(Destination&des);
+                  void viewMyDestinations();
+
+
+
+
     bool upToDate()
     {
         return isUpToDate;

@@ -237,28 +237,25 @@ void UsersArchive::collectAllData()
             std::cout<<fFriends[j].name<<std::endl;
             users[i]->addFriend(fFriends[j].name);
         }
-        /*for(int j=0; j<dest; j++)
+        for(int j=0; j<dest; j++)
         {
             Destination*d=&usersDestinationsToDestination(userDes[j]);
             try
             {
-                users[i]->addDestination(*d);
+                users[i]->addDestinationFromFile(*d);
             }
             catch(MyException e)
             {
                 std::cout<<e.what()<<std::endl;
             }
-        }*/
+        }
         delete[]fFriends;
         delete[] userDes;
         iFile.close();
     }
 
 }
-/*Destination& UsersArchive::usersDestinationsToDestination(UsersDestination& userDes)
-{
 
-}*/
 
 void UsersArchive::updateUserInDB(User& user)
 {
@@ -277,22 +274,28 @@ void UsersArchive::updateUserInDB(User& user)
     int countDestinations=user.getDestinationsSize();
     oFile.seekp(0);
     oFile.write((char const*)&countFriends,sizeof(int));
-    //shte bude za destinaciite
     oFile.write((char const*)&countDestinations,sizeof(int));
     FileFriends* f=new FileFriends[countFriends];
-    FileUsersDestination*d=new FileUsersDestination[countDestinations];
-   char**friends=user.getFriends();
+    //FileUsersDestination*d=new FileUsersDestination[countDestinations];
+    char**friends=user.getFriends();
 
-    for(int i=0;i<countFriends;i++)
+    for(int i=0; i<countFriends; i++)
     {
         f[i]=FileFriends(friends[i]);
-               std::cout<<f[i].name<<std::endl;
+        std::cout<<f[i].name<<std::endl;
 
         oFile.write((char const*)&f[i],sizeof(FileFriends));
     }
-    for(int i=0;i<countDestinations;i++)
+    for(int i=0; i<countDestinations; i++)
     {
-       //d[i]=FileUsersDestination
+        try
+        {
+            createFileUsersDestinationFromDestinationAndWriteIT(user.getMyDestinationByIndex(i),oFile);
+        }
+        catch(MyException e)
+        {
+            std::cout<<"Can not write destination with index "<<i<<std::endl;
+        }
     }
     delete[] f;
     oFile.close();
@@ -312,6 +315,41 @@ bool UsersArchive::isNameValidUser(const char*username)
         }
     }
     return false;
+}
+void UsersArchive::createFileUsersDestinationFromDestinationAndWriteIT(Destination&des,std::ofstream&os)
+{
+    char ph[5][10];
+    if(des.getPhotosSize()==0)
+    {
+        strcpy(ph[0],"");
+    }
+    for(int i=0; i<des.getPhotosSize(); i++)
+    {
+        strcpy(ph[i],des.getPhotos()[i]->getName());
+    }
+    FileUsersDestination f(des.getName(),des.getPeriod()->getFrom(),des.getPeriod()->getTill(),des.getGrade(),des.getComment(),ph);
+    os.write((char const*)&f,sizeof(FileUsersDestination));
+}
+
+Destination& UsersArchive::usersDestinationsToDestination(FileUsersDestination& userDes)
+{
+    Destination*d=new Destination();
+    d->setName(userDes.name);
+    d->setGrade(userDes.rating);
+    d->setPeriod(userDes.from,userDes.till);
+    d->setComment(userDes.comment);
+    for(int i=0; i<MAX_PHOTOS_PER_USER; i++)
+    {
+        try
+        {
+            d->addPhoto(userDes.photos[i]);
+        }
+        catch(MyException e)
+        {
+            break;
+        }
+    }
+    return *d;
 }
 
 

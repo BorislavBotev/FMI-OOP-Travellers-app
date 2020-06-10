@@ -12,6 +12,7 @@ User::User(char*name)
     destinationsCapacity=5;
     isUpToDate=true;
     friends=new char*[friendsCapacity];
+    destinations=new Destination*[destinationsCapacity];
 }
 
 User::~User()
@@ -72,7 +73,14 @@ void User::addFriendWtihValidation(const char*username)
     addFriend(username);
 
 }
-
+void User::addDestinationFromFile(Destination&des)
+{
+    if(destinationsSize==destinationsCapacity)
+    {
+        resizeArray(destinations,destinationsSize,destinationsCapacity);
+    }
+    destinations[destinationsSize++]=&des;
+}
 
 char* User::addDestination()
 {
@@ -114,13 +122,13 @@ char* User::addDestination()
             std::cout<<e.what()<<std::endl;
         }
     }
-    char input2[MAX_DATE_LENGTH];
+    char input2[50];
     while(true)
     {
         std::cout<<"Write destinations period\nFrom:"<<std::endl;
-        std::cin.getline(input,MAX_DESTINATIOON_NAME_LENGTH);
+        std::cin.getline(input,MAX_DATE_LENGTH+1);
         std::cout<<"Till:"<<std::endl;
-        std::cin.getline(input2,MAX_DATE_LENGTH);
+        std::cin.getline(input2,MAX_DATE_LENGTH+1);
         try
         {
             des->setPeriod(input,input2);
@@ -147,8 +155,8 @@ char* User::addDestination()
     }
 
     std::cout<<"Add photos if you want- exit if you wanna leave"<<std::endl;
-    std::cin.getline(input,MAX_COMMENT_LENGTH);
-    while(strcmp(input,"exit")!=0 || des->getPhotosSize()<=MAX_PHOTOS_PER_USER)
+    std::cin.getline(input,FILE_EXTENSIONS_MAX_LEN+1);
+    while(strcmp(input,"exit")!=0 && des->getPhotosSize()<=MAX_PHOTOS_PER_USER)
     {
         try
         {
@@ -159,7 +167,7 @@ char* User::addDestination()
             std::cout<<e.what()<<std::endl;
         }
         std::cout<<"Add photos if you want-exit for leave"<<std::endl;
-        std::cin.getline(input,MAX_COMMENT_LENGTH);
+        std::cin.getline(input,FILE_EXTENSIONS_MAX_LEN+1);
     }
     if(destinationsSize==destinationsCapacity)
     {
@@ -167,11 +175,36 @@ char* User::addDestination()
     }
     destinations[destinationsSize++]=des;
     isUpToDate=false;
+    std::cout<<"HELLOOOOOOOO"<<std::endl;
     return des->getName();
 }
+            void User::viewMyDestinations()
+            {
+                if(destinationsSize==0)
+                {
+                    std::cout<<"You haven't visited any destinations"<<std::endl;
+                    return;
+                }
+                for(int i=0;i<destinationsSize;i++)
+                {
+                    std::cout<<*destinations[i]<<std::endl;
+                }
+            }
+
+
+Destination& User::getMyDestinationByIndex(int number)
+{
+    if(number<0 && number>=destinationsSize)
+    {
+        throw MyException("Invalid index");
+    }
+    return *destinations[number];
+}
+
+
 bool User::alreadyInYourList(const char*name)
 {
-    for(int i=0;i<destinationsSize;i++)
+    for(int i=0; i<destinationsSize; i++)
     {
         if(strcmp(destinations[i]->getName(),name)==0)
         {
@@ -180,3 +213,5 @@ bool User::alreadyInYourList(const char*name)
     }
     return false;
 }
+
+

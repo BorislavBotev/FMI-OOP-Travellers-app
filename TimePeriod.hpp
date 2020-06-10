@@ -20,8 +20,8 @@ public:
     ~TimePeriod();
     void setFrom(char*date);
     void setTill(char*date);
-    const char* getFrom() const;
-    const char* getTill() const;
+     char* getFrom() const;
+    char* getTill() const;
 };
 std::ostream& operator<<(std::ostream& os, TimePeriod const& t);
 

@@ -12,7 +12,7 @@ void TimePeriod::setFrom(char*date)
     {
         throw MyException("NULL pointer given!");
     }
-    if(!isValidFrom(date))
+    if(strlen(date)>10 || !isValidFrom(date))
     {
         throw MyException("Invalid date given-make sure it is in YYYY-MM-DD format and it is a real date(after 1950)");
     }
@@ -26,7 +26,7 @@ void TimePeriod::setTill(char*date)
     {
         throw MyException("NULL pointer given!");
     }
-    if(!isValidTill(date))
+    if(strlen(date)>10 || !isValidTill(date))
     {
         throw MyException("Invalid date given-make sure it is in YYYY-MM-DD format and it is a real date(after 1950 and the starting date)");
     }
@@ -170,11 +170,11 @@ bool TimePeriod::isValidDateFormat(const char*date)
     }
     return true;
 }
-const char* TimePeriod:: getFrom() const
+ char* TimePeriod:: getFrom() const
 {
     return from;
 }
-const char* TimePeriod::getTill() const
+ char* TimePeriod::getTill() const
 {
     return till;
 }

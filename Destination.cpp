@@ -5,7 +5,7 @@ Destination::Destination()
     period=NULL;
     grade=0;
     comment=NULL;
-    photos=NULL;
+    photos=new Photo*[MAX_PHOTOS_PER_USER];
     photosSize=0;
 
 }
@@ -34,14 +34,13 @@ void Destination::setName(char*name)
     {
         throw MyException("Invalid town");
     }
-    if(name[index]!=',' || name[++index]!=' ')
+    if(name[index++]!=',')
     {
         delete[]town;
         throw MyException("Invalid syntax- Town, Country");
     }
-    index++;
     char*country=NULL;
-    extractWordFromInput(country,name,index);
+    extractNameFromInput(country,name,index);
     if(!country || name[index]!='\0')
     {
         delete[]town;
@@ -102,10 +101,46 @@ void Destination::addPhoto(char*file)
         throw MyException(e.what());
     }
 }
+
 int Destination::getPhotosSize()const
 {
     return photosSize;
 }
+
+char* Destination::getName()const
+{
+    return name;
+}
+int Destination::getGrade()const
+{
+    return grade;
+}
+TimePeriod* Destination::getPeriod()const
+{
+    return period;
+}
+char* Destination::getComment()const
+{
+    return comment;
+}
+Photo** Destination::getPhotos()const
+{
+    return photos;
+}
+
+std::ostream& operator<<(std::ostream& os, Destination const& d)
+{
+    os<<"Name- "<<d.getName()<<"\nGrade- "<<d.getGrade()<<"\nPeriod- "<<
+    d.getPeriod()->getFrom()<<","<<d.getPeriod()->getTill()<<"\nComment- "<<d.getComment()<<"\nPhotos- ";
+    for(int i=0;i<d.getPhotosSize();i++)
+    {
+        os<<d.getPhotos()[i]->getName();
+    }
+    return os;
+}
+
+
+
 
 
 
