@@ -11,6 +11,7 @@ class DestinationsArchive
     int destinationsSize;
     int destinationsCapacity;
     FileDestination*fDestinations;
+    bool isFileUpdated;
 
 public:
     //  void registerUser(FileUser*users);
@@ -20,6 +21,7 @@ public:
     void collectAllData();
     void printDestinations();
                         void addDestination(char*des);
+                       void updateFile();
 
     // void viewDestinations(int& command);
 

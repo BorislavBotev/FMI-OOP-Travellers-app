@@ -4,6 +4,7 @@ DestinationsArchive::DestinationsArchive()
     destinationsCapacity=0;
     destinationsSize=0;
     fDestinations=NULL;
+    isFileUpdated=true;
 }
 DestinationsArchive::~DestinationsArchive()
 {
@@ -33,8 +34,55 @@ void DestinationsArchive::collectAllData()
 }
 void DestinationsArchive::addDestination(char*name)
 {
-
+    if(!name)
+    {
+        return;
+    }
+    for(int i=0; i<destinationsSize; i++)
+    {
+        if(strcmp(fDestinations[i].name,name)==0)
+        {
+            return;
+        }
+    }
+    if(destinationsSize==destinationsCapacity)
+    {
+        destinationsCapacity*=2;
+        FileDestination*arr=new FileDestination[destinationsCapacity];
+        for(int i=0; i<destinationsSize; i++)
+        {
+            arr[i]=fDestinations[i];
+        }
+        arr[destinationsSize++]=FileDestination(name);
+        delete[]fDestinations;
+        fDestinations=arr;
+    }
+    else
+    {
+        fDestinations[destinationsSize++]=FileDestination(name);
+    }
+    isFileUpdated=false;
 }
+
+void DestinationsArchive::updateFile()
+{
+    if(!isFileUpdated)
+    {
+        std::ofstream oFile(DES_ARCHIVE_NAME[0],std::ios::binary);
+        if(!oFile.is_open())
+        {
+            throw MyException("Can not open file");
+        }
+        oFile.seekp(0);
+        oFile.write((char const*)&destinationsSize,sizeof(int));
+        for(int i=0; i<destinationsSize; i++)
+        {
+            oFile.write((char const*)&fDestinations[i],sizeof(FileDestination));
+        }
+        oFile.close();
+    }
+}
+
 /*FileDestination* DestinationsArchive:: downloadDestinations()
 {
     std::ifstream iFile("destinations.db",std::ios::binary);

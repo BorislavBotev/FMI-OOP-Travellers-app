@@ -2,14 +2,14 @@
 #define STRUCTS_HPP_INCLUDED
 #include "User.hpp"
 #include "Photo.hpp"
-struct UsersDestination
+struct FileUsersDestination
 {
     char name[MAX_DESTINATIOON_NAME_LENGTH];
     char from[MAX_DATE_LENGTH];
     char till[MAX_DATE_LENGTH];
     int rating;
     char comment[MAX_COMMENT_LENGTH];
-    char photos[MAX_PHOTOS_PER_USER*FILE_EXTENSIONS_MAX_LEN];
+    char photos[MAX_PHOTOS_PER_USER][FILE_EXTENSIONS_MAX_LEN];
     UsersDestination(char*name,char*from,char*till,int rating,char*comment,char*photos)
     {
         strcpy(this->name,name);
@@ -17,7 +17,7 @@ struct UsersDestination
         strcpy(this->till,till);
         this->rating=rating;
         strcpy(this->comment,comment);
-        strcpy(this->photos,photos);
+       // strcpy(this->photos,photos);
     }
     UsersDestination()
     {
@@ -53,7 +53,15 @@ struct FileUser
 struct FileDestination
 {
     char name[MAX_DESTINATIOON_NAME_LENGTH];
-    //double rating;
+        FileDestination(char*name)
+    {
+        strcpy(this->name,name);
+    }
+      FileDestination()
+    {
+
+    }
+
 };
 
 

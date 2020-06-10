@@ -13,7 +13,7 @@ class UsersArchive
     void addNewUserToFile(FileUser fileUser);
     void fileUsersToArrUsers();
     FileUser* downloadUsers();
-    Destination& usersDestinationsToDestination(UsersDestination& userDes);
+    //Destination& usersDestinationsToDestination(UsersDestination& userDes);
 
 
 public:

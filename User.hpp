@@ -16,8 +16,9 @@ private:
     Destination**destinations;
     int destinationsSize;
     int destinationsCapacity;
-    bool alreadyInYourList(const char*name);
+    bool isFileUpdated;
 
+    bool alreadyInYourList(const char*name);
 public:
     User(char*name);
     ~User();
@@ -30,9 +31,13 @@ public:
     {
         return isUpToDate;
     };
-    int getFriendsSize()
+    int getFriendsSize() const
     {
         return friendsSize;
+    }
+    int getDestinationsSize() const
+    {
+        return destinationsSize;
     }
     char** getFriends() const
     {

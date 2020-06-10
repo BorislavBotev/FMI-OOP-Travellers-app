@@ -8,6 +8,8 @@ User::User(char*name)
     }
     friendsSize=0;
     friendsCapacity=5;
+    destinationsSize=0;
+    destinationsCapacity=5;
     isUpToDate=true;
     friends=new char*[friendsCapacity];
 }
@@ -159,6 +161,12 @@ char* User::addDestination()
         std::cout<<"Add photos if you want-exit for leave"<<std::endl;
         std::cin.getline(input,MAX_COMMENT_LENGTH);
     }
+    if(destinationsSize==destinationsCapacity)
+    {
+        resizeArray(destinations,destinationsSize,destinationsCapacity);
+    }
+    destinations[destinationsSize++]=des;
+    isUpToDate=false;
     return des->getName();
 }
 bool User::alreadyInYourList(const char*name)

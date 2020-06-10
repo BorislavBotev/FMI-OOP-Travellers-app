@@ -17,13 +17,11 @@ Application::~Application()
 void Application:: app()
 {
     logIn();
-    std::cout<<"Lets go"<<std::endl;
     desArchive->collectAllData();
     usArchive->collectAllData();
     homepage();
     usArchive->updateUserInDB(*user);
-    // delete user;
-
+    desArchive->updateFile();
 }
 
 void Application::logIn()
@@ -82,11 +80,7 @@ void Application::homepage()
         switch(command)
         {
         case 1:
-            /*FileDestination*fd=desArchive->viewDestinations(command);
-            if(fd!=NULL)
-            {
-                usArchive->userInfoForDestination(fd->name);
-            }*/
+            desArchive->printDestinations();
             break;
         case 2:
             // viewMyDestinations();
@@ -106,8 +100,6 @@ void Application::homepage()
             user->addFriendWtihValidation(username);
             break;
         case 5:
-
-
             {
                 try
                 {

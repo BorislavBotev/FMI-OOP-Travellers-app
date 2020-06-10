@@ -222,9 +222,9 @@ void UsersArchive::collectAllData()
         std::cout<<"dest:"<<dest<<std::endl;
 
         FileFriends*fFriends=new FileFriends[friends];
-        UsersDestination*userDes=new UsersDestination[dest];
+        FileUsersDestination*userDes=new FileUsersDestination[dest];
         iFile.read((char*)fFriends,(sizeof(FileFriends)*friends));
-        iFile.read((char*)userDes,(sizeof(UsersDestination)*dest));
+        iFile.read((char*)userDes,(sizeof(FileUsersDestination)*dest));
         if(fFriends==NULL || userDes==NULL)
         {
             delete[]fFriends;
@@ -255,10 +255,10 @@ void UsersArchive::collectAllData()
     }
 
 }
-Destination& UsersArchive::usersDestinationsToDestination(UsersDestination& userDes)
+/*Destination& UsersArchive::usersDestinationsToDestination(UsersDestination& userDes)
 {
 
-}
+}*/
 
 void UsersArchive::updateUserInDB(User& user)
 {
@@ -271,14 +271,16 @@ void UsersArchive::updateUserInDB(User& user)
     if(oFile.bad())
     {
         oFile.close();
-        throw MyException("File is corrupted");
+        throw MyException("File is corrupted-can not save");
     }
     int countFriends=user.getFriendsSize();
+    int countDestinations=user.getDestinationsSize();
     oFile.seekp(0);
     oFile.write((char const*)&countFriends,sizeof(int));
     //shte bude za destinaciite
-    oFile.write((char const*)&countFriends,sizeof(int));
+    oFile.write((char const*)&countDestinations,sizeof(int));
     FileFriends* f=new FileFriends[countFriends];
+    FileUsersDestination*d=new FileUsersDestination[countDestinations];
    char**friends=user.getFriends();
 
     for(int i=0;i<countFriends;i++)
@@ -288,6 +290,11 @@ void UsersArchive::updateUserInDB(User& user)
 
         oFile.write((char const*)&f[i],sizeof(FileFriends));
     }
+    for(int i=0;i<countDestinations;i++)
+    {
+       //d[i]=FileUsersDestination
+    }
+    delete[] f;
     oFile.close();
 }
 
