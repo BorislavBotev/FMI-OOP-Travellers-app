@@ -39,7 +39,6 @@ void User::addFriend(const char*name)
     strcpy(friends[friendsSize],name);
     std::cout<<"Successfully added : "<<name<<std::endl;
     friendsSize++;
-    std::cout<<friendsSize<<std::endl;
     isUpToDate=false;
 }
 void User::viewFriends()

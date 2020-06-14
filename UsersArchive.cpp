@@ -16,16 +16,13 @@ FileUser* UsersArchive:: downloadUsers()
         throw MyException("Can not open file");
     }
     iFile.read((char*)&usersSize,sizeof(int));
-    std::cout<<"users after file"<<usersSize<<std::endl;
 
     if(usersSize==0)
     {
         return NULL;
     }
     usersCapacity=usersSize+5;
-    //std::cout<<usersSize<<std::endl;
     FileUser*users=new FileUser[usersSize];
-    // iFile.seekg(sizeof(int),std::ios::beg);
     iFile.read((char*)users,(sizeof(FileUser)*usersSize));
     if(users==NULL)
     {
@@ -42,15 +39,10 @@ User* UsersArchive::signIn()
     if(fUsers==NULL)
     {
         fUsers=downloadUsers();
-        //for(int i=0;i<usersSize;i++)
-        // {
-        //     std::cout<<fUsers->name<<fUsers->password<<fUsers->mail<<std::endl;
-        //  }
     }
     if(usersSize==0)
     {
         std::cout<<"No registered users"<<std::endl;
-        return NULL;
         return registerUser();
     }
     while(true)
@@ -64,8 +56,6 @@ User* UsersArchive::signIn()
         std::cin.getline(password,10);
         for(; i<usersSize; i++)
         {
-            std::cout<<fUsers[i].name<<fUsers[i].password<<std::endl;
-
             if(strcmp(name,fUsers[i].name)==0 && strcmp(password,fUsers[i].password)==0)
             {
                 break;
@@ -81,8 +71,6 @@ User* UsersArchive::signIn()
             }
             delete[] fUsers;
             fUsers=NULL;
-            std::cout<<users[i]->getName()<<std::endl;
-
             return users[i];
         }
         std::cout<<"Invalid username or password"<<std::endl;
@@ -109,7 +97,6 @@ User* UsersArchive::registerUser()
         std::cin.getline(mail,20);
         for(; i<usersSize; i++)
         {
-            std:: cout<<"hi"<<std::endl;
             if(strcmp(name,fUsers[i].name)==0 && strcmp(mail,fUsers[i].mail)==0)
             {
                 break;
@@ -119,19 +106,8 @@ User* UsersArchive::registerUser()
         {
             addNewUserToFile(FileUser(name,password,mail));
             User* user=new User(name);
-            // std:: cout<<"hi"<<std::endl;
-
-            //addNewUserToFile(user);
-            //this->user=new User(name);
-            std::cout<<"Successfully registered!"<<std::endl;
-            //  std::cout<<usersSize<<std::endl;
-            //             std::cout<<users<<std::endl;
             usersSize++;
             char*n=createFileNameFromUsername(name);
-            std::cout<<n<<std::endl;
-            std::ofstream i;
-            i.open(n);
-            i.close();
             delete[]n;
             return user;
         }
@@ -142,7 +118,6 @@ User* UsersArchive::registerUser()
 void UsersArchive::addNewUserToFile(FileUser fileUser)
 {
     int count=usersSize+1;
-    // std::cout<<fileUser.name<<" "<<fileUser.password<<" "<<fileUser.mail<<std::endl;
     std::ofstream oFile("users.db",std::ios::binary);
     if(!oFile.is_open())
     {
@@ -150,17 +125,12 @@ void UsersArchive::addNewUserToFile(FileUser fileUser)
     }
     oFile.seekp(0);
     oFile.write((char const*)&count,sizeof(int));
-    // std::cout<<count<<std::endl;
-    //oFile.seekp(0);
     for(int i=0; i<usersSize; i++)
     {
         oFile.write((char const*)&fUsers[i],sizeof(FileUser));
     }
-    std::cout<<fileUser.name<<fileUser.password<<std::endl;
-
     oFile.write((char const*)&fileUser,sizeof(FileUser));
     oFile.close();
-    //std:: cout<<"hi"<<std::endl;
 }
 
 void UsersArchive::printUsers()
@@ -205,7 +175,6 @@ void UsersArchive::collectAllData()
         {
             throw MyException("User DB corrupted");
         }
-        std::cout<<"HIIIIIIIIIII"<<std::endl;
 
         std::ifstream iFile(fName,std::ios::binary);
         if(iFile.bad())
@@ -215,12 +184,7 @@ void UsersArchive::collectAllData()
         }
         int friends=0,dest=0;
         iFile.read((char*)&friends,sizeof(int));
-        //std::cout<<"users after file"<<usersSize<<std::endl;
         iFile.read((char*)&dest,sizeof(int));
-
-        std::cout<<"friends::"<<friends<<std::endl;
-        std::cout<<"dest:"<<dest<<std::endl;
-
         FileFriends*fFriends=new FileFriends[friends];
         FileUsersDestination*userDes=new FileUsersDestination[dest];
         iFile.read((char*)fFriends,(sizeof(FileFriends)*friends));
@@ -234,7 +198,6 @@ void UsersArchive::collectAllData()
         }
         for(int j=0; j<friends; j++)
         {
-            std::cout<<fFriends[j].name<<std::endl;
             users[i]->addFriend(fFriends[j].name);
         }
         for(int j=0; j<dest; j++)
@@ -276,14 +239,11 @@ void UsersArchive::updateUserInDB(User& user)
     oFile.write((char const*)&countFriends,sizeof(int));
     oFile.write((char const*)&countDestinations,sizeof(int));
     FileFriends* f=new FileFriends[countFriends];
-    //FileUsersDestination*d=new FileUsersDestination[countDestinations];
     char**friends=user.getFriends();
 
     for(int i=0; i<countFriends; i++)
     {
         f[i]=FileFriends(friends[i]);
-        std::cout<<f[i].name<<std::endl;
-
         oFile.write((char const*)&f[i],sizeof(FileFriends));
     }
     for(int i=0; i<countDestinations; i++)
@@ -351,57 +311,5 @@ Destination& UsersArchive::usersDestinationsToDestination(FileUsersDestination& 
     }
     return *d;
 }
-
-
-
-
-
-
-/*void UsersArchive::userInfoForDestination(char*name)
-{
-    for(int i=0; i<usersSize; i++)
-    {
-        if(isUpdated[i])
-        {
-            users[i]->giveDestinationRating(name);
-        }
-        else
-        {
-            char*fName=createFileNameFromUsername(users[i]->getName());
-            if(!fName)
-            {
-                throw MyException("User DB corrupted");
-            }
-            std::ifstream iFile(fName,std::ios::binary);
-            if(iFile.bad())
-            {
-                iFile.close();
-                throw MyException("Can not open file");
-            }
-            int friends=0,dest=0;
-            iFile.read((char*)&friends,sizeof(int));
-            //std::cout<<"users after file"<<usersSize<<std::endl;
-            iFile.read((char*)&dest,sizeof(int));
-            for(int i=0; i<friends; i++)
-            {
-
-            }
-            usersCapacity=usersSize+5;
-            //std::cout<<usersSize<<std::endl;
-            FileUser*users=new FileUser[usersSize];
-            // iFile.seekg(sizeof(int),std::ios::beg);
-            iFile.read((char*)users,(sizeof(FileUser)*usersSize));
-            if(users==NULL)
-            {
-                iFile.close();
-                throw MyException("Can not read database");
-            }
-            iFile.close();
-        }
-
-    }
-}
-}*/
-
 
 

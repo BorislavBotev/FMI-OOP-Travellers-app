@@ -68,11 +68,7 @@ char* createFileNameFromUsername(const char*name)
     }
     int s=strlen(name)+4;
     char*fName=new char[s];
-    //fName[0]='"';
-    //fName[1]='\0';
     fName=strcat(fName,name);
     fName=strcat(fName,".db");
-    //fName[s-2]='"';
-   // fName[s-1]='\0';
     return fName;
 }

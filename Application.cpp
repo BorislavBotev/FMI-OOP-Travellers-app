@@ -49,8 +49,6 @@ void Application::logIn()
             try
             {
                 user=usArchive->registerUser();
-                std::cout<<"WOW"<<std::endl;
-
             }
             catch(MyException e)
             {
@@ -100,97 +98,26 @@ void Application::homepage()
             user->addFriendWtihValidation(username);
             break;
         case 5:
+        {
+            try
             {
-                try
-                {
-                    desArchive->addDestination(user->addDestination());
-                }
-                catch(MyException e)
-                {
-                    std::cout<<e.what()<<std::endl;
-                }
-
-            break;
-        case 0:
-            return;
-        case -1:
-            return ;
-        default:
-            std::cout<<"Please write valid command"<<std::endl;
-            break;
-        }
-
-    }
-}
-}
-
-/*void Application::viewDestinations()
-{
-    std::ifstream iFile("destinations.db",std::ios::binary);
-    iFile.read((char*)countDestinations,sizeof(int));
-    if(countDestinations==0)
-    {
-        std::cout<<"There are no destinations added"<<std::endl;
-        return;
-    }
-    FileDestination*destinations=new FileDestination[countDestinations];
-    iFile.read((char*)destinations,sizeof(FileDestination)*countDestinations);
-    while(true)
-    {
-        printDestinations(destinations);
-        std::cout<<"Choose destination for more rating info or 0 to go back"<<std::endl;
-        std::cin>>command;
-
-        if(command!=0)
-        {
-            break;
-        }
-        else
-        {
-            std::cout<<destinations[command-1].name<<" "<<destinations[command-1].rating<<std::endl;
-            viewDestinationsRatings(destinations[command-1]);
-        }
-    }
-    delete[] destinations;
-
-}
-
-void  Application::viewDestinationsRatings(FileDestination& destination)
-{
-    FileUser*users=downloadUsers();
-    for(int i=0; i<countUsers; i++)
-    {
-        std::ifstream o(users[i].name,std::ios::binary);
-        int usersDestinations=0;
-        o.read((char*)usersDestinations,sizeof(int));
-        UserDestinations*destinations=new UserDestinations[usersDestinations];
-        o.read((char*)destinations,sizeof(UserDestinations));
-        for(int j=0; j<usersDestinations; j++)
-        {
-            if(strcmp(destination.name,destinations[j].name))
-            {
-                std::cout<<users[i].name<<" "<<destinations[j].rating<<std::endl;
+                desArchive->addDestination(user->addDestination());
             }
-        }
-        delete[] destinations;
+            catch(MyException e)
+            {
+                std::cout<<e.what()<<std::endl;
+            }
 
-    }
-    delete[] users;
-    std::cout<<"Press 0 to go back"<<std::endl;
-    std::cin>>command;
-    while(command!=0)
-    {
-        std::cin>>command;
+            break;
+            case -1:
+                return ;
+            default:
+                std::cout<<"Please write valid command"<<std::endl;
+                break;
+            }
+
+        }
     }
 }
-
-
-void Application::printDestinations(FileDestination* destinations)
-{
-    for(int i=0; i<countDestinations; i++)
-    {
-        std::cout<<i+1<<"-"<<destinations[i].name<<", Rating:"<<destinations[i].rating<<std::endl;
-    }
-}*/
 
 
